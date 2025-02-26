@@ -1,0 +1,58 @@
+{% extends "blog/base.html"%}
+
+{% block content %}
+<div class="container-fluid">
+        <div class="row d-flex justify-content-center mb-5">
+            <div class="col-4">
+                <h3>Edit Post</h3>
+                <div class="">
+                    {% include 'blog/includes/errors.html' %}
+                </div>
+    
+                <div class="my-3">
+                    <!--The enctype attribute specifies how the form-data should be encoded when submitting it to the server-->
+                    <!--enctype property is the MIME type of content that is used to submit the form to the server.-->
+                    <!--Django sets content_type to “text/html-->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" id="title" value="{{post.title}}">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" name="content">{{post.content}}</textarea>
+                        </div>
+                        <!--image type-->
+                        <div class="form-group">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control-file" name="img_url"></input>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-control" id="category" name="category">
+                                <option value="">Select</option>
+                                <!--if category-->
+                                {% if categories %}
+                                <!--for category in  categories from database-->
+                                    {% for category in categories %}
+                                    <!--option category from database-->
+                                        <option {% if post.category.id == category.id %} selected {% endif %} value="{{category.id}}">{{category.name}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                       
+                        <div class="my-3 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+{% endblock %}   
